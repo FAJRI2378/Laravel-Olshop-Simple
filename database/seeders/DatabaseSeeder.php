@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
@@ -15,21 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-      // Seeder dengan nilai numerik
-$users = [
-    [
-        'name' => 'Admin',
-        'email' => 'admin@gmail.com',
-        'type' => 1, // admin
-        'password' => bcrypt('123456'),
-    ],
-    [
-        'name' => 'User',
-        'email' => 'user@gmail.com',
-        'type' => 0, // user
-        'password' => bcrypt('123456'),
-    ],
-];
+        // Seeder dengan penggunaan 'role' alih-alih 'type'
+        $users = [
+            [
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'role' => 'admin', // Menggunakan role sebagai string
+                'password' => bcrypt('123456'),
+            ],
+            [
+                'name' => 'User',
+                'email' => 'user@gmail.com',
+                'role' => 'user', // User biasa
+                'password' => bcrypt('123456'),
+            ],
+        ];
 
         // Menambahkan setiap pengguna ke dalam tabel 'users'
         foreach ($users as $user) {

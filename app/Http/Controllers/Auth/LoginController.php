@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-
     use AuthenticatesUsers;
 
     protected $redirectTo = RouteServiceProvider::HOME;
@@ -30,15 +29,19 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            if (Auth::user()->type == 'admin') {
-                return redirect()->route('admin.home');
+        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
+            $user = Auth::user(); // Mendapatkan user yang sedang login
+
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.home'); // Redirect ke halaman admin
+            } elseif ($user->role === 'manager') {
+                return redirect()->route('manager.home'); // Redirect ke halaman manager
             } else {
-                return redirect()->route('home');
+                return redirect()->route('home'); // Redirect ke halaman user biasa
             }
         } else {
             return redirect()->route('login')
-                ->with('error', 'Email-Address And Password Are Wrong.');
+                ->with('error', 'Email atau password salah.');
         }
     }
 }

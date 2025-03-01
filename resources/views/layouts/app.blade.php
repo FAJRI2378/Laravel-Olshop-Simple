@@ -55,15 +55,35 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="#" onclick="confirmLogout(event)">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+
+                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                    <script>
+                                        function confirmLogout(event) {
+                                            event.preventDefault(); // Mencegah logout langsung
+
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin ingin logout?',
+                                                text: "Anda harus login kembali jika ingin masuk!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'Ya, Logout!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    document.getElementById('logout-form').submit();
+                                                }
+                                            });
+                                        }
+                                    </script>
                                 </div>
                             </li>
                         @endguest

@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserAccess
 {
-    public function handle(Request $request, Closure $next, $userType): Response
+    public function handle(Request $request, Closure $next, $role): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->type === $userType) {
+            if (Auth::user()->role === $role) {
                 return $next($request);
             }
         }

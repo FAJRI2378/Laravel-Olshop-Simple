@@ -16,14 +16,14 @@ class HomeController extends Controller
         // Mengambil produk untuk semua pengguna
         $produks = Produk::all();
 
-        // Menampilkan tampilan berdasarkan tipe user
+        // Menampilkan tampilan berdasarkan role user
         if (Auth::check()) {
             $user = Auth::user();  // Mendapatkan user yang sedang login
 
-            // Menampilkan halaman berdasarkan tipe user
-            if ($user->type == 'admin') {
+            // Menampilkan halaman berdasarkan role user
+            if ($user->role == 'admin') {
                 return redirect()->route('admin.home'); // Redirect ke halaman admin
-            } elseif ($user->type == 'manager') {
+            } elseif ($user->role == 'manager') {
                 return redirect()->route('manager.home'); // Redirect ke halaman manager
             } else {
                 return view('home', compact('produks')); // Halaman untuk user biasa
