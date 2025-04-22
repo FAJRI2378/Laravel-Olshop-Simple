@@ -12,7 +12,7 @@ class UserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Pastikan user sudah login dan memiliki peran user
-        if (Auth::check() && Auth::user() === 'user'()) {
+        if (Auth::check() && Auth::user()->role === 'user') {
             return $next($request);
         }
 

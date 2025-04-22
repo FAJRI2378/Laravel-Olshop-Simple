@@ -33,7 +33,7 @@ class LoginController extends Controller
             $user = Auth::user(); // Mendapatkan user yang sedang login
 
             if ($user->role === 'admin') {
-                return redirect()->route('admin.home'); // Redirect ke halaman admin
+                return redirect()->route('admin.index'); // Redirect ke halaman admin
             } elseif ($user->role === 'manager') {
                 return redirect()->route('manager.home'); // Redirect ke halaman manager
             } else {

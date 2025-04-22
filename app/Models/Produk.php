@@ -9,5 +9,9 @@ class Produk extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kode_produk', 'nama', 'harga'];
+    // Menambahkan relasi ke SppPayment
+    public function sppPayments()
+    {
+        return $this->hasMany(SppPayment::class);
+    }
 }

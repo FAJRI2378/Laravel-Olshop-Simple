@@ -1,16 +1,34 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Controllers\Auth;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
-class Authenticate extends Middleware
+class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     */
-    protected function redirectTo(Request $request): ?string
+    public function store(Request $request): RedirectResponse
     {
-        return $request->expectsJson() ? null : route('login');}
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // Cek role setelah login
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.index');
+            } else {
+                return redirect()->route('home');
+            }
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
+    }
 }

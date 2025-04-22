@@ -37,4 +37,14 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
+
+    /**
+     * Relasi dengan model SppPayment
+     */
+    public function sppPayments()
+{
+    return $this->hasMany(SppPayment::class);
+}
+
+    
 }
